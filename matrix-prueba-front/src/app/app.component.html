@@ -15,6 +15,10 @@
      </form>
   </div>
 </nav>
+<div>
+   <router-outlet></router-outlet>
+</div>
+
 <div class="container" id="main-container">
 <div class="row">
   <div *ngFor="let profile of profiles" class="col-md-6 col-xl-3">
@@ -37,26 +41,29 @@
         <div class="float-right btn-group btn-group-sm">
           <div class="card-body">
             <div class="float-right btn-group btn-group-sm">
+               <a (click)="onOpenModal('view', profile)" class="btn btn-info tooltips" data-placement="top" data-original-title="view"><i class="fa fa-eye"></i> </a>
                <a (click)="onOpenModal('edit', profile)" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
                <a (click)="onOpenModal('delete', profile)" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
             </div>
          </div>
         </div>
-        <ul class="social-links list-inline mb-0">
+        <!-- <ul class="social-links list-inline mb-0">
           <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook-f"></i></a></li>
           <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>
           <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a>
           </li>
-        </ul>
+        </ul> -->
       </div>
     </div>
   </div>
-</div><!-- Add Employee Modal -->
-<div class="modal fade" id="addEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+</div>
+
+<!-- Add Profile Modal -->
+<div class="modal fade" id="addProfileModal" tabindex="-1" role="dialog" aria-labelledby="addProfileModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
        <div class="modal-header">
-          <h5 class="modal-title" id="addEmployeeModalLabel">Add Employee</h5>
+          <h5 class="modal-title" id="addProfileModalLabel">Add Employee</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
           </button>
@@ -65,15 +72,27 @@
           <form #addForm="ngForm" (ngSubmit)="onAddProfile(addForm)">
           <div class="form-group">
              <label for="name">Name</label>
-             <input type="text" ngModel name="name" class="form-control" id="name" placeholder="Name" required>
+             <input type="text" ngModel name="name" class="form-control" id="name" placeholder="Nombre" required>
           </div>
+         <div class="form-group">
+            <label for="lastName">Apellido</label>
+            <input type="text" ngModel name="lastName" class="form-control" id="lastName" placeholder="Apellido" required>
+         </div>
           <div class="form-group">
              <label for="email">Email Address</label>
              <input type="email" ngModel name="email" class="form-control" id="email" placeholder="Email" required>
           </div>
           <div class="form-group">
-             <label for="phone">Phone</label>
-             <input type="text" ngModel name="phone" class="form-control" id="phone" placeholder="Phone" required>
+            <label for="city">Ciudad</label>
+            <input type="text" ngModel name="city" class="form-control" id="city" placeholder="Ciudad" required>
+         </div>
+         <div class="form-group">
+            <label for="country">País</label>
+            <input type="text" ngModel name="country" class="form-control" id="country" placeholder="País" required>
+         </div>
+          <div class="form-group">
+             <label for="phone">Teléfono</label>
+             <input type="text" ngModel name="phone" class="form-control" id="phone" placeholder="Teléfono" required>
           </div>
           <div class="form-group">
              <label for="phone">Image URL</label>
@@ -90,11 +109,11 @@
   </div>
 
 <!-- Edit Modal -->
-<div class="modal fade" id="updateEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="employeeEditModalLabel" aria-hidden="true">
+<div class="modal fade" id="updateProfileModal" tabindex="-1" role="dialog" aria-labelledby="profileEditModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
      <div class="modal-content">
         <div class="modal-header">
-           <h5 class="modal-title" id="updateEmployeeModalLabel">Edit Profile {{editProfile?.name}}</h5>
+           <h5 class="modal-title" id="updateProfileModalLabel">Edit Profile {{editProfile?.name}}</h5>
            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
            <span aria-hidden="true">&times;</span>
            </button>
@@ -104,11 +123,11 @@
             <input type="hidden" ngModel="{{editProfile?.id}}" name="id" class="form-control" id="id">
             <div class="form-group">
               <label for="name">Name</label>
-              <input type="text" ngModel="{{editProfile?.name}}" name="name" class="form-control" id="name" placeholder="Name">
+              <input type="text" ngModel="{{editProfile?.name}}" name="name" class="form-control" id="name" placeholder="Nombre">
             </div>
             <div class="form-group">
               <label for="lastName">Last name</label>
-              <input type="text" ngModel="{{editProfile?.lastName}}" name="lastName" class="form-control" id="lastName" placeholder="Last name">
+              <input type="text" ngModel="{{editProfile?.lastName}}" name="lastName" class="form-control" id="lastName" placeholder="Apellido">
             </div>    
             <div class="form-group">
                 <label for="email">Email Address</label>
@@ -116,14 +135,14 @@
             </div>
             <div class="form-group">
                 <label for="phone">Phone</label>
-                <input type="text" ngModel="{{editProfile?.phone}}" name="phone" class="form-control" id="phone" name="phone" placeholder="Phone">
+                <input type="text" ngModel="{{editProfile?.phone}}" name="phone" class="form-control" id="phone" name="phone" placeholder="Teléfono">
             </div>
             <div class="form-group">
                 <label for="phone">Image URL</label>
                 <input type="text" ngModel="{{editProfile?.imageUrl}}" name="imageUrl" class="form-control" id="imageUrl" placeholder="Image URL">
             </div>
             <div class="form-group">
-              <label for="country">Country</label>
+              <label for="country">País</label>
               <input type="text" ngModel="{{editProfile?.country}}" name="country" class="form-control" id="country" placeholder="País">
             </div>
             <div class="form-group">
@@ -140,8 +159,61 @@
   </div>
 </div>
 
+<!-- View Modal -->
+<div class="modal fade" id="viewProfileModal" tabindex="-1" role="dialog" aria-labelledby="profileViewModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="viewProfileModalLabel">Ver Perfil {{viewProfile?.name}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="col-6">
+            <a href=""><img src="{{ viewProfile?.imageUrl }}" alt="" class="img-fluid rounded-circle w-60"/></a>
+          </div>
+         <div class="modal-body">
+           <form #viewForm="ngForm">
+             <input type="hidden" ngModel="{{viewProfile?.id}}" name="id" class="form-control" id="id">
+             <div class="form-group">
+               <label for="name">Name</label>
+               <input type="text" ngModel="{{viewProfile?.name}}" name="name" class="form-control" id="name" readonly placeholder="Name">
+             </div>
+             <div class="form-group">
+               <label for="lastName">Last name</label>
+               <input type="text" ngModel="{{viewProfile?.lastName}}" name="lastName" class="form-control" id="lastName" readonly placeholder="Last name">
+             </div>    
+             <div class="form-group">
+                 <label for="email">Email Address</label>
+                 <input type="email" ngModel="{{viewProfile?.email}}" name="email" class="form-control" id="email" readonly placeholder="Email">
+             </div>
+             <div class="form-group">
+                 <label for="phone">Phone</label>
+                 <input type="text" ngModel="{{viewProfile?.phone}}" name="phone" class="form-control" id="phone" name="phone" readonly placeholder="Phone">
+             </div>
+             <div class="form-group">
+                 <label for="phone">Image URL</label>
+                 <input type="text" ngModel="{{viewProfile?.imageUrl}}" name="imageUrl" class="form-control" id="imageUrl" readonly placeholder="Image URL">
+             </div>
+             <div class="form-group">
+               <label for="country">País</label>
+               <input type="text" ngModel="{{viewProfile?.country}}" name="country" class="form-control" id="country" readonly placeholder="País">
+             </div>
+             <div class="form-group">
+               <label for="city">City</label>
+               <input type="text" ngModel="{{viewProfile?.city}}" name="city" class="form-control" id="city" readonly placeholder="Ciudad">
+             </div>
+             <div class="modal-footer">
+                 <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+             </div>
+            </form>
+         </div>
+      </div>
+   </div>
+ </div>
+
 <!-- Delete Modal -->
-<div class="modal fade" id="deleteEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+<div class="modal fade" id="deleteProfileModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
      <div class="modal-content">
         <div class="modal-header">
@@ -151,7 +223,7 @@
            </button>
         </div>
         <div class="modal-body">
-           <p>Are you sure you want to delete employee {{deleteProfile?.name}}?</p>
+           <p>Are you sure you want to delete profile{{deleteProfile?.name}}?</p>
            <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
               <button (click)="onDeleteProfile(deleteProfile?.id ?? -1)" class="btn btn-danger" data-dismiss="modal">Yes</button>
@@ -162,10 +234,10 @@
 </div>
 </div>
 
-<!-- Notification for no employees -->
+<!-- Notification for no profiles -->
 <div *ngIf="profiles?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
 <div class="alert alert-info" role="alert">
-  <h4 class="alert-heading">NO EMPLOYEES!</h4>
-  <p>No Employees were found.</p>
+  <h4 class="alert-heading">NO PROFILES!</h4>
+  <p>No Profiles were found.</p>
 </div>
 </div>

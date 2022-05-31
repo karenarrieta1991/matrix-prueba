@@ -6,10 +6,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProfileService } from './profile.service';
 import { FormsModule } from '@angular/forms';
+import { ViewProfileComponent } from './components/view-profile/view-profile.component';
+
+
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ViewProfileComponent,
   ],
   imports: [
     BrowserModule,

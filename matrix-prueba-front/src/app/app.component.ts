@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   public profiles: Profile[];
   public editProfile?: Profile;
   public deleteProfile?: Profile;
+  public viewProfile?: Profile;
 
   constructor(private profileService: ProfileService) { }
 
@@ -70,6 +71,18 @@ export class AppComponent implements OnInit {
     );
   }
 
+  public onViewProfile(profileId: number): void {
+    this.profileService.viewProfile(profileId).subscribe(
+      (response: void) => {
+        console.log(response);
+        this.getProfiles();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
   public searchProfiles(key: string): void {
     console.log(key);
     const results: Profile[] = [];
@@ -101,6 +114,10 @@ export class AppComponent implements OnInit {
     if(mode == 'edit'){
       this.editProfile = profile;
       button.setAttribute('data-target', '#updateProfileModal');
+    }
+    if(mode == 'view'){
+      this.viewProfile = profile;
+      button.setAttribute('data-target', '#viewProfileModal');
     }
     if(mode == 'delete'){
       this.deleteProfile = profile;
